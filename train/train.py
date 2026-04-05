@@ -59,15 +59,23 @@ def train_network():
             # تصفير الـ Eligibility Trace للنمط القادم
             S_hid_out.delta_w = 0 
             S_in_hid.delta_w = 0
-            
-            # منع الأوزان من أن تصبح سالبة جداً أو عملاقة
+          # ... (كود تحديث الأوزان وتقليمها) ...
             S_hid_out.w = np.clip(S_hid_out.w, 0, 15)
             S_in_hid.w = np.clip(S_in_hid.w, 0, 15)
             
             current_mean_weight = np.mean(S_hid_out.w)
             weight_history.append(current_mean_weight)
-            print(f"Epoch {epoch+1}, Sample {idx+1} | Target: {target}, Pred: {predicted} | Reward: {reward} | New Mean W: {current_mean_weight:.4f}")
-
+            
+            # ==========================================
+            # التعديل الجديد: حساب وطباعة الدقة اللحظية (Running Accuracy)
+            # بنحسب إحنا في الخطوة الكام حالياً من إجمالي التدريب
+            current_step = epoch * len(inout.train_data) + idx + 1
+            running_accuracy = (correct_predictions / current_step) * 100
+            
+            print(f"Epoch {epoch+1}, Sample {idx+1} | Target: {target}, Pred: {predicted} | Reward: {reward}")
+            print(f"-> Offline Mean Weight: {current_mean_weight:.4f} | Running Accuracy: {running_accuracy:.2f}%")
+            print("-" * 50)
+            # ==========================================
     print("\n--- Final Weights (Hidden -> Output) ---")
     print(np.array(S_hid_out.w))
     

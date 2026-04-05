@@ -74,4 +74,14 @@ def create_network():
     S_hid_out.w = 'rand() * 2'
     S_hid_out.delta_w = 0
 
+    # إضافة روابط استرجاعية (Recurrent) للطبقة المخفية لتكوين "ذاكرة سياق"
+    S_hid_hid = Synapses(hidden_group, hidden_group, syn_eqs, on_pre=on_pre, on_post=on_post, method='rk4', namespace=syn_namespace)
+    
+    # لا نربط كل النيورونات ببعضها (لكي لا تحدث صرع/Epilepsy للشبكة)، نربط نسبة معينة مثلاً 20%
+    S_hid_hid.connect(p=0.2, condition='i != j') # i != j تمنع النيورون من إرسال إشارة لنفسه مباشرة
+    S_hid_hid.w = 'rand() * 0.5' # أوزان ضعيفة لتعمل كـ "همس" في الخلفية
+    S_hid_hid.delta_w = 0
+    
+    # طبعاً ستحتاج لعمل return لـ S_hid_hid مع باقي الروابط
+
     return inp_group, hidden_group, output_group, S_in_hid, S_hid_out
