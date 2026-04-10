@@ -1,6 +1,9 @@
 import numpy as np
 from train.online_learning import process_online_sample
 from motor_drive import JointServo # استدعاء المحرك الجديد
+import serial
+# حط السطر ده قبل الـ loop بتاعتك
+ser = serial.Serial('COM6', 9600, timeout=None)
 def main():
     
     print("="*60)
@@ -13,7 +16,9 @@ def main():
     my_joint = JointServo()
     while True:
         print("\n" + "-"*60)
-        user_input = input("📝 أدخل 12 رقم للإشارة العضلية:\n> ")
+       # السطر الجديد:
+        user_input = ser.readline().decode('utf-8').strip()
+        if not user_input: continue # عشان لو السطر فاضي ميعملش إيرور
         
         if user_input.lower() == 'exit':
             break

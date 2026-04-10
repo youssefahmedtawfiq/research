@@ -16,8 +16,8 @@ def process_online_sample(net_objects, analog_emg_input, memory_state, step_idx,
     weights_file = "processed_data/saved_network_weights.npz"
     weights_found = False
     try:
-        saved_weights = np.load(weights_file)
-        updated_weights = dict(saved_weights) 
+        saved_weights = np.load(weights_file, allow_pickle=True)    
+        updated_weights = dict(saved_weights)
         weights_found = True
     except:
         updated_weights = {}

@@ -20,8 +20,8 @@ def load_network_data():
     """
     try:
         # 2. قراءة الملفات
-        emg_loaded = np.load(emg_file_path)
-        angles_loaded = np.load(angles_file_path)
+        emg_loaded = np.load(emg_file_path, allow_pickle=True)
+        angles_loaded = np.load(angles_file_path, allow_pickle=True)
 
         # 3. سحب الـ Arrays وتخزينها في متغيرات
         # (تأكد أن 'emg_encoded_data' هو نفس الاسم الذي حفظت به ملف الـ EMG)

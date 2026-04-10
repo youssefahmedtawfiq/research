@@ -72,7 +72,7 @@ def run_simulation(user_inputs_list):
         
         success, memory_state, output_angles, accumulative_conf = process_online_sample(
             net_objects=None,
-            analog_emg_input=analog_input,
+            analog_thermal_input=analog_input,
             memory_state=memory_state,
             step_idx=step,
             accumulative_conf=accumulative_conf
